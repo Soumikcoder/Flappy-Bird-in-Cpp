@@ -1,2 +1,4 @@
 *.o
 bin/
+lib/
+include/SDL2/
