@@ -1,12 +1,29 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <time.h>
+
+
 #include "Entity.hpp"
 // #include <SDL2/SDL_ttf.h>
 // #include <SDL2/SDL_mixer.h>
 
 void Init();
 
+
+class gametime
+{
+	double lasttime;
+public:
+	gametime(){
+		lasttime=clock();
+	}
+	void tick(int fps){
+		while((clock()-lasttime)<(CLOCKS_PER_SEC/(double)fps));
+		lasttime=clock();
+	}
+	
+};
 // Creating window and methods
 class RenderWindow
 {

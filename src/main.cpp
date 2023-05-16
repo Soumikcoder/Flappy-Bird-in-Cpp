@@ -36,12 +36,13 @@ int main(int argc, char *argv[])
 	entitites.push_back(Entity(60,10,grass,1));
 	// int zoom;
 	// Game loop
+	gametime frames;
 	while (gamerunning){
-	
+		frames.tick(60);
 		while (SDL_PollEvent(&event))
 		{
 
-			Uint64 start=SDL_GetPerformanceCounter();
+			// Uint64 start=SDL_GetPerformanceCounter();
 
 			SDL_GetMouseState(&pos_x,&pos_y);
 			switch (event.type)
@@ -81,10 +82,10 @@ int main(int argc, char *argv[])
 			}
 			window.display();
 
-			Uint64 end=SDL_GetPerformanceCounter();
+			// Uint64 end=SDL_GetPerformanceCounter();
 
-			float elapsed=(end-start)/(float)SDL_GetPerformanceFrequency()*1000.0f;
-			SDL_Delay(floor(16.666f-elapsed));
+			// float elapsed=(end-start)/(float)SDL_GetPerformanceFrequency()*1000.0f;
+			// SDL_Delay(floor(16.666f-elapsed));
 		}
 	}
 
