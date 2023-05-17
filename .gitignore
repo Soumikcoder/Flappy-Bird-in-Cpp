@@ -2,3 +2,4 @@
 bin/
 lib/
 include/SDL2/
+*.sublime-workspace
