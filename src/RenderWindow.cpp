@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <cstdio>
-// #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 // #include <SDL2/SDL_mixer.h>
 
 
@@ -17,6 +17,7 @@ RenderWindow::RenderWindow(const char* p_title,int p_w,int p_h)
 		exit(1);
 	}
 	renderer = SDL_CreateRenderer(window, -1,SDL_RENDERER_ACCELERATED);
+	Sans = TTF_OpenFont("res/font/font.ttf",60);
 }
 
 SDL_Texture* RenderWindow::loadTexture(const char* p_filePath){
@@ -46,6 +47,16 @@ void RenderWindow::render(Entity& p_entity){
 	SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dst);
 }
 
+void RenderWindow::rendertext(char* text,SDL_Color &color,int x,int y,int height,int width){
+	SDL_Surface* surfaceMessage =TTF_RenderText_Solid(Sans, text, color); 
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_Rect src;
+	src.x=x;
+	src.y=y;
+	src.h=height;
+	src.w=width;
+	SDL_RenderCopy(renderer,Message,NULL,&src);
+}
 
 void RenderWindow::display(){
 	SDL_RenderPresent(renderer);
@@ -73,9 +84,9 @@ void Init(void){
 	{
 		printf("Image failed!");
 	}
-	// if(TTF_Init()==-1){
-	// 	printf("Fonts failed!");
-	// }
+	if(TTF_Init()==-1){
+		printf("Fonts failed!");
+	}
 	// if (Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096)==-1)
 	// {
 	// 	printf("Image failed!");

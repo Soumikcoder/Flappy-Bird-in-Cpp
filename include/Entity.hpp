@@ -12,7 +12,8 @@ class Entity
 	float zoom;
 public:
 	Entity(float p_x,float p_y,SDL_Texture* p_tex,float p_zoom);
-	~Entity(){printf("object destroyed!\n");}
+	~Entity(){//printf("object destroyed!\n");
+	}
 	float getX();
 	float getY();
 	float getZoom();
