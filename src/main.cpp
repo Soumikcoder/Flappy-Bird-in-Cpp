@@ -1,17 +1,26 @@
 // Availaible headers
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-// #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 // #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <vector>
 #include <Cmath>
-
 // user defined headers
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
 //  -m32 doesn't works its 64bit
+
+// this is the color in rgb format,
+// maxing out all would give you the color white,
+// and it will be your text's color
+SDL_Color White = {255, 255, 255};
+// as TTF_RenderText_Solid could only be used on
+// SDL_Surface then you have to create the surface first
+
+
+// now you can convert it into a texture
 
 int main(int argc, char *argv[])
 {
@@ -36,12 +45,14 @@ int main(int argc, char *argv[])
 	entitites.push_back(Entity(60,10,grass,1));
 	// int zoom;
 	// Game loop
+	gametime frames;
 	while (gamerunning){
-	
+		Uint64 start =SDL_GetPerformanceCounter();
+		frames.tick(60);
 		while (SDL_PollEvent(&event))
 		{
 
-			Uint64 start=SDL_GetPerformanceCounter();
+			// Uint64 start=SDL_GetPerformanceCounter();
 
 			SDL_GetMouseState(&pos_x,&pos_y);
 			switch (event.type)
@@ -67,7 +78,6 @@ int main(int argc, char *argv[])
 						// printf("..........................\n");
 						entitites.erase(entitites.begin());
 					}
-					printf("%lld\n",sizeof(entitites));
 					break;
 				default:
 					break;
@@ -79,12 +89,15 @@ int main(int argc, char *argv[])
 			{
 				window.render(entitites[i]);
 			}
-			window.display();
-
 			Uint64 end=SDL_GetPerformanceCounter();
 
-			float elapsed=(end-start)/(float)SDL_GetPerformanceFrequency()*1000.0f;
-			SDL_Delay(floor(16.666f-elapsed));
+			double elapsed=(end-start)/(double)SDL_GetPerformanceFrequency()*1000.0f;
+			char fps[10];
+			sprintf(fps,"FPS:%.2lf",(1000.0f/elapsed));
+			window.rendertext(fps,White,320,10,20,80);
+			window.display();
+
+			// SDL_Delay(floor(16.666f-elapsed));
 		}
 	}
 
