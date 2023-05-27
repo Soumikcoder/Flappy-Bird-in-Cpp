@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <time.h>
-
+#include <Cmath>
 
 #include "Entity.hpp"
 #include <SDL2/SDL_ttf.h>
@@ -13,14 +13,24 @@ void Init();
 
 class gametime
 {
-	double lasttime;
+	Uint64 start;
 public:
 	gametime(){
-		lasttime=clock();
+		start=SDL_GetPerformanceCounter();
 	}
-	void tick(int fps=60){
-		while((clock()-lasttime)<(CLOCKS_PER_SEC/(double)fps));
-		lasttime=clock();
+	double tick(int fps=60){
+		Uint64 end=SDL_GetPerformanceCounter();
+
+		double elapsed=(end-start)/(double)SDL_GetPerformanceFrequency()*1000.0f;
+
+		if(elapsed<((double)1000.0/fps))
+		SDL_Delay(floor(((double)1000.0/fps)-elapsed));
+
+		end=SDL_GetPerformanceCounter();
+		elapsed=(end-start)/(double)SDL_GetPerformanceFrequency()*1000.0f;
+
+		start=SDL_GetPerformanceCounter();
+		return ((double)1000.0/elapsed);
 	}
 	
 };

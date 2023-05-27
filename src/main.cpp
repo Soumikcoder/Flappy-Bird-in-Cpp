@@ -5,7 +5,6 @@
 // #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <vector>
-#include <Cmath>
 // user defined headers
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
@@ -47,10 +46,9 @@ int main(int argc, char *argv[])
 	// Game loop
 	gametime frames;
 	while (gamerunning){
-		Uint64 start =SDL_GetPerformanceCounter();
-		frames.tick(60);
 		while (SDL_PollEvent(&event))
 		{
+			window.clear();
 
 			// Uint64 start=SDL_GetPerformanceCounter();
 
@@ -82,22 +80,16 @@ int main(int argc, char *argv[])
 				default:
 					break;
 			}
-			window.clear();
 			entitites[entitites.size()-1].setXY(pos_x-(entitites[entitites.size()-1].getFrame().h*entitites[entitites.size()-1].getZoom()/2),pos_y-(entitites[entitites.size()-1].getFrame().w*entitites[entitites.size()-1].getZoom()/2),entitites[entitites.size()-1].getZoom());
 
 			for (unsigned i = 0; i < entitites.size(); ++i)
 			{
 				window.render(entitites[i]);
 			}
-			Uint64 end=SDL_GetPerformanceCounter();
-
-			double elapsed=(end-start)/(double)SDL_GetPerformanceFrequency()*1000.0f;
 			char fps[10];
-			sprintf(fps,"FPS:%.2lf",(1000.0f/elapsed));
+			sprintf(fps,"FPS:%.2lf",frames.tick(60));
 			window.rendertext(fps,White,320,10,20,80);
 			window.display();
-
-			// SDL_Delay(floor(16.666f-elapsed));
 		}
 	}
 
