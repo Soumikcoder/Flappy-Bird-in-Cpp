@@ -64,12 +64,7 @@ int main(int argc, char *argv[])
 					break;
 			}
 		}
-			for(int i=0;i<3;i++){
-			window.render(background1,i*280-(pos%280),0);
-			}
-			for(int i=0;i<6;i++){
-			window.render(background2,i*120-(pos%120),332);
-			}
+			draw_background(background1,background2,window,pos);
 			flappy.update();
 			window.render(flappy);
 			char fps[10];
