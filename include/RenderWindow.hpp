@@ -44,6 +44,7 @@ public:
 	RenderWindow(const char* p_title,int p_w,int p_h);
 	SDL_Texture* loadTexture(const char* p_filePath);
 	void render(Entity& p_entity);
+	void render(Entity& p_entity,int x,int y);
 	void rendertext(char* text,SDL_Color &color,int x,int y,int height,int width);
 	void display();
 	void clear();

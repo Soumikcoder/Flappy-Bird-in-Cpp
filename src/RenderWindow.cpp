@@ -31,7 +31,6 @@ SDL_Texture* RenderWindow::loadTexture(const char* p_filePath){
 }
 
 void RenderWindow::render(Entity& p_entity){
-
 	SDL_Rect src;
 	src.x=p_entity.getFrame().x;
 	src.y=p_entity.getFrame().y;
@@ -41,6 +40,21 @@ void RenderWindow::render(Entity& p_entity){
 	SDL_Rect dst;
 	dst.x=p_entity.getX();
 	dst.y=p_entity.getY();
+	dst.w=p_entity.getFrame().w*p_entity.getZoom();
+	dst.h=p_entity.getFrame().h*p_entity.getZoom();
+
+	SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dst);
+}
+void RenderWindow::render(Entity& p_entity,int x,int y){
+	SDL_Rect src;
+	src.x=p_entity.getFrame().x;
+	src.y=p_entity.getFrame().y;
+	src.h=p_entity.getFrame().h;
+	src.w=p_entity.getFrame().w;
+
+	SDL_Rect dst;
+	dst.x=x;
+	dst.y=y;
 	dst.w=p_entity.getFrame().w*p_entity.getZoom();
 	dst.h=p_entity.getFrame().h*p_entity.getZoom();
 
