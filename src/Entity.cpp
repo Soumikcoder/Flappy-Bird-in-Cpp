@@ -4,20 +4,22 @@
 
 // detailed description of different methods of entity
 Entity::Entity(float p_x,float p_y,SDL_Texture* p_tex,float p_zoom=1){
+	printf("Entity created\n");
 	x=p_x;
 	y=p_y;
 	tex=p_tex;
 	zoom=p_zoom;
-	currentFrame.x=0;
-	currentFrame.y=0;
-	currentFrame.w=128;
-	currentFrame.h=128;
 }
 // accessing all entity members
 float Entity::getX(){
 	return x;
 }
-
+void Entity::setcurrFrame(SDL_Rect &currentFrame_t){
+	currentFrame.x=currentFrame_t.x;
+	currentFrame.y=currentFrame_t.y;
+	currentFrame.w=currentFrame_t.w;
+	currentFrame.h=currentFrame_t.h;
+}
 float Entity::getY(){
 	return y;
 }

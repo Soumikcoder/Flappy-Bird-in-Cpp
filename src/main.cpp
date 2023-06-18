@@ -2,105 +2,108 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-// #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <vector>
-#include <Cmath>
+#include <stdlib.h>
+#include <time.h>
 // user defined headers
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
+#include "Bird.hpp"
+#include "Background.hpp"
+#include "Pipe.hpp"
+
+#define HEIGHT 432
+#define WIDTH 450
 
 //  -m32 doesn't works its 64bit
 
 // this is the color in rgb format,
 // maxing out all would give you the color white,
 // and it will be your text's color
-SDL_Color White = {255, 255, 255};
 // as TTF_RenderText_Solid could only be used on
 // SDL_Surface then you have to create the surface first
-
 
 // now you can convert it into a texture
 
 int main(int argc, char *argv[])
 {
-	
 	// Initializing and Checking for errors in headers
 	Init();
-
+	srand(time(NULL));
 	// Intializing game window
-	RenderWindow window("GAME",720,640);
+	RenderWindow window("GAME",WIDTH,HEIGHT);
 
 	// loading image 
-	SDL_Texture* grass=window.loadTexture("res/gfx/ground.png");
-
+	SDL_Texture* bg=window.loadTexture("res/gfx/assets.png");
+	//constant music
+	// Mix_Music* flapping=Mix_LoadMUS("res/sound/sounds_sfx_wing.ogg");
+	// Mix_PlayMusic(flapping,0);
+	Mix_Chunk* flapping_sound=Mix_LoadWAV("res/sound/sounds_sfx_wing.ogg");
+	Mix_Chunk* die_sound=Mix_LoadWAV("res/sound/sounds_sfx_die.ogg");
+	Mix_Chunk* hit_sound=Mix_LoadWAV("res/sound/sounds_sfx_hit.ogg");
 	// setting gameloop conditions and events
 	bool gamerunning=true;
+	int pos=0;
+	int level=1;
 	SDL_Event event;
 
 	// creating entity
-
-	int pos_x,pos_y;
-	std::vector<Entity> entitites;
-	entitites.push_back(Entity(60,10,grass,1));
-	// int zoom;
+	Background background1(bg,0);
+	Background background2(bg,1);
+	Bird flappy(bg);
+	std::vector<Pipe> p;
+	for(int i=0;i<4;i++){
+	p.push_back(Pipe(bg,500+200*i));
+	}
 	// Game loop
 	gametime frames;
 	while (gamerunning){
-		Uint64 start =SDL_GetPerformanceCounter();
-		frames.tick(60);
+		window.clear();
 		while (SDL_PollEvent(&event))
 		{
-
-			// Uint64 start=SDL_GetPerformanceCounter();
-
-			SDL_GetMouseState(&pos_x,&pos_y);
+			
 			switch (event.type)
 			{
 				case SDL_QUIT:
 					gamerunning=false;
 					break;
 				case SDL_MOUSEWHEEL :
-					if (event.wheel.y>0)
-					{
-						entitites[entitites.size()-1].increaseZoom();
-					}
-					else if (event.wheel.y<0)
-					{
-						entitites[entitites.size()-1].decreaseZoom();
-					}
-					// zoom=entitites[0]
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					entitites.push_back(Entity(pos_x-(entitites[entitites.size()-1].getFrame().h*entitites[entitites.size()-1].getZoom()/2),pos_y-(entitites[entitites.size()-1].getFrame().w*entitites[entitites.size()-1].getZoom()/2),grass,entitites[entitites.size()-1].getZoom()));
-					if (entitites.size()>10)
-					{
-						// printf("..........................\n");
-						entitites.erase(entitites.begin());
-					}
+					flappy.flap(frames.get_elapsed());
+					Mix_PlayChannel(-1,flapping_sound,0);
 					break;
 				default:
 					break;
+				}
 			}
-			window.clear();
-			entitites[entitites.size()-1].setXY(pos_x-(entitites[entitites.size()-1].getFrame().h*entitites[entitites.size()-1].getZoom()/2),pos_y-(entitites[entitites.size()-1].getFrame().w*entitites[entitites.size()-1].getZoom()/2),entitites[entitites.size()-1].getZoom());
-
-			for (unsigned i = 0; i < entitites.size(); ++i)
-			{
-				window.render(entitites[i]);
+			if(!flappy.check_colision(p,pos)){
+				pos+=((int)frames.get_elapsed()/10*level);
+				flappy.update(frames.get_elapsed());
+				
 			}
-			Uint64 end=SDL_GetPerformanceCounter();
-
-			double elapsed=(end-start)/(double)SDL_GetPerformanceFrequency()*1000.0f;
-			char fps[10];
-			sprintf(fps,"FPS:%.2lf",(1000.0f/elapsed));
-			window.rendertext(fps,White,320,10,20,80);
+			else{
+				Mix_PlayChannel(-1,hit_sound,0);
+				Mix_PlayChannel(-1,die_sound,0);
+			}
+			if(pos%10000==531){
+				background1.change_mode();
+				flappy.change_mode();
+			}
+			draw_background(background1,background2,window,pos);
+			
+			window.render(flappy,flappy.get_angle(frames.get_elapsed()));
+			check_pipe(p,pos);
+			for(int i=0;i<4;i++){
+			window.render_pipe(p[i],pos);
+			}
+			frames.tick(60);
+			window.update_frames(frames);
 			window.display();
 
-			// SDL_Delay(floor(16.666f-elapsed));
-		}
 	}
-
 	// clearing memory ocuupied by window
 	window.cleanup();
 	SDL_Quit();
