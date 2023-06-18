@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-// #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <vector>
 #include <stdlib.h>
@@ -36,11 +36,17 @@ int main(int argc, char *argv[])
 	RenderWindow window("GAME",WIDTH,HEIGHT);
 
 	// loading image 
-	int pos=0;
-	int level=1;
 	SDL_Texture* bg=window.loadTexture("res/gfx/assets.png");
+	//constant music
+	// Mix_Music* flapping=Mix_LoadMUS("res/sound/sounds_sfx_wing.ogg");
+	// Mix_PlayMusic(flapping,0);
+	Mix_Chunk* flapping_sound=Mix_LoadWAV("res/sound/sounds_sfx_wing.ogg");
+	Mix_Chunk* die_sound=Mix_LoadWAV("res/sound/sounds_sfx_die.ogg");
+	Mix_Chunk* hit_sound=Mix_LoadWAV("res/sound/sounds_sfx_hit.ogg");
 	// setting gameloop conditions and events
 	bool gamerunning=true;
+	int pos=0;
+	int level=1;
 	SDL_Event event;
 
 	// creating entity
@@ -67,6 +73,7 @@ int main(int argc, char *argv[])
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					flappy.flap(frames.get_elapsed());
+					Mix_PlayChannel(-1,flapping_sound,0);
 					break;
 				default:
 					break;
@@ -75,6 +82,11 @@ int main(int argc, char *argv[])
 			if(!flappy.check_colision(p,pos)){
 				pos+=((int)frames.get_elapsed()/10*level);
 				flappy.update(frames.get_elapsed());
+				
+			}
+			else{
+				Mix_PlayChannel(-1,hit_sound,0);
+				Mix_PlayChannel(-1,die_sound,0);
 			}
 			if(pos%10000==531){
 				background1.change_mode();

@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <cstdio>
 #include <SDL2/SDL_ttf.h>
-// #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 
 
 // detailed description of all methods of window
@@ -133,10 +133,10 @@ void Init(void){
 	if(TTF_Init()==-1){
 		printf("Fonts failed!");
 	}
-	// if (Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096)==-1)
-	// {
-	// 	printf("Image failed!");
-	// }
+	if (Mix_Init(MIX_INIT_OGG)&&Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096)==-1)
+	{
+		printf("Music failed!");
+	}
 }
 
 void RenderWindow::update_frames(gametime frames){
