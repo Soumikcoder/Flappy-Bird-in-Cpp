@@ -9,6 +9,7 @@ class Background:public Entity
 	SDL_Rect currentFrame;
 public:
 	 Background(SDL_Texture* p_tex,int mode):Entity(0,0,p_tex,2){
+	 	printf("Background created\n");
 	 	if(mode){
 	 	currentFrame.x=300;
 		currentFrame.y=0;
@@ -34,12 +35,12 @@ public:
 };
 
 
-void draw_background(Background& background1,Background& background2,RenderWindow& window,int pos){
+void draw_background(Background &background1,Background &background2,RenderWindow &window,int pos){
 	for(int i=0;i<3;i++){
 		window.render(background1,i*280-(pos%280),0);
 	}
 	for(int i=0;i<6;i++){
 		window.render(background2,i*120-(pos%120),332);
 	}
-
+	return;
 }

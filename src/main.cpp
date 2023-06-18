@@ -5,11 +5,14 @@
 // #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 // user defined headers
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 #include "Bird.hpp"
 #include "Background.hpp"
+#include "Pipe.hpp"
 
 #define HEIGHT 432
 #define WIDTH 450
@@ -23,18 +26,19 @@
 // SDL_Surface then you have to create the surface first
 
 // now you can convert it into a texture
-int pos=0;
+
 int main(int argc, char *argv[])
 {
 	// Initializing and Checking for errors in headers
 	Init();
-
+	srand(time(NULL));
 	// Intializing game window
 	RenderWindow window("GAME",WIDTH,HEIGHT);
 
 	// loading image 
+	int pos=0;
+	int level=1;
 	SDL_Texture* bg=window.loadTexture("res/gfx/assets.png");
-
 	// setting gameloop conditions and events
 	bool gamerunning=true;
 	SDL_Event event;
@@ -43,12 +47,17 @@ int main(int argc, char *argv[])
 	Background background1(bg,0);
 	Background background2(bg,1);
 	Bird flappy(bg);
+	std::vector<Pipe> p;
+	for(int i=0;i<4;i++){
+	p.push_back(Pipe(bg,500+200*i));
+	}
 	// Game loop
 	gametime frames;
 	while (gamerunning){
+		window.clear();
 		while (SDL_PollEvent(&event))
 		{
-			window.clear();
+			
 			switch (event.type)
 			{
 				case SDL_QUIT:
@@ -57,19 +66,31 @@ int main(int argc, char *argv[])
 				case SDL_MOUSEWHEEL :
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					background1.change_mode();
+					flappy.flap(frames.get_elapsed());
 					break;
 				default:
 					break;
+				}
 			}
-		}
+			if(!flappy.check_colision(p,pos)){
+				pos+=((int)frames.get_elapsed()/10*level);
+				flappy.update(frames.get_elapsed());
+			}
+			if(pos%10000==531){
+				background1.change_mode();
+				flappy.change_mode();
+			}
 			draw_background(background1,background2,window,pos);
-			flappy.update();
-			window.render(flappy);
+			
+			window.render(flappy,flappy.get_angle(frames.get_elapsed()));
+			check_pipe(p,pos);
+			for(int i=0;i<4;i++){
+			window.render_pipe(p[i],pos);
+			}
 			frames.tick(60);
 			window.update_frames(frames);
 			window.display();
-			pos++;
+
 	}
 	// clearing memory ocuupied by window
 	window.cleanup();
