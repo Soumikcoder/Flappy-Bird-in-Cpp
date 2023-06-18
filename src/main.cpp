@@ -19,7 +19,6 @@
 // this is the color in rgb format,
 // maxing out all would give you the color white,
 // and it will be your text's color
-SDL_Color White = {255, 255, 255};
 // as TTF_RenderText_Solid could only be used on
 // SDL_Surface then you have to create the surface first
 
@@ -67,9 +66,8 @@ int main(int argc, char *argv[])
 			draw_background(background1,background2,window,pos);
 			flappy.update();
 			window.render(flappy);
-			char fps[10];
-			sprintf(fps,"FPS:%.2lf",frames.tick(60));
-			window.rendertext(fps,White,215,10,20,80);
+			frames.tick(60);
+			window.update_frames(frames);
 			window.display();
 			pos++;
 	}

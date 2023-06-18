@@ -49,4 +49,5 @@ public:
 	void display();
 	void clear();
 	void cleanup();
+	void update_frames(gametime frames);
 };

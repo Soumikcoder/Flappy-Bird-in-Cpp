@@ -106,3 +106,10 @@ void Init(void){
 	// 	printf("Image failed!");
 	// }
 }
+
+void RenderWindow::update_frames(gametime frames){
+	char fps[10];
+	SDL_Color White = {255, 255, 255};
+	sprintf(fps,"FPS:%.2lf",frames.tick(60));
+	rendertext(fps,White,215,10,20,80);
+}
