@@ -8,8 +8,10 @@
 class Pipe:public Entity
 {
 	float pos_x,pos_y;
+	int pipe_height=90;
 public:
 	Pipe(SDL_Texture* p_tex,float x);
+	int get_height() {return pipe_height;}
 };
 
 void check_pipe(std::vector<Pipe> &pipes,int offset);
