@@ -1,4 +1,5 @@
 // Availaible headers
+//SoumikCoder@ or VolatileBits
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
 	Init();
 	srand(time(NULL));
 	// Intializing game window
-	RenderWindow window("Flappy Bird",WIDTH,HEIGHT);
+	RenderWindow window("Flappy Bird By Soumik",WIDTH,HEIGHT);
 
 	// loading image 
 	SDL_Surface* icon = IMG_Load("res/gfx/icon.png");
