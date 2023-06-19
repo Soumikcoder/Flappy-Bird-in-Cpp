@@ -43,10 +43,14 @@ int main(int argc, char *argv[])
 	Mix_Chunk* flapping_sound=Mix_LoadWAV("res/sound/sounds_sfx_wing.ogg");
 	Mix_Chunk* die_sound=Mix_LoadWAV("res/sound/sounds_sfx_die.ogg");
 	Mix_Chunk* hit_sound=Mix_LoadWAV("res/sound/sounds_sfx_hit.ogg");
+	Mix_Chunk* point_sound=Mix_LoadWAV("res/sound/sounds_sfx_point.ogg");
 	// setting gameloop conditions and events
 	int mode=0;
+	int highscore=0;
 	do{
-	mode=gameplay(window,bg,flapping_sound,die_sound,hit_sound);
+	mode=main_menu(window,bg);
+	if(mode)
+	mode=gameplay(window,bg,flapping_sound,die_sound,hit_sound,point_sound,highscore);
 	}while(mode);
 	// clearing memory ocuupied by window
 	window.cleanup();

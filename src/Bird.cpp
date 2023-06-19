@@ -35,7 +35,7 @@ bool Bird::check_colision(std::vector<Pipe> &pipes,int offset){
 		return true;
 	for(auto &pipe : pipes){
 		if(((double)(pipe.getX()-offset)<=(double)(216.0+40.0))&&((double)(pipe.getX()-offset+50)>=(double)(216.0))){
-			if((getY()<=(pipe.getY()-40))||((getY()+28)>=(pipe.getY()+40))){
+			if((getY()<=(pipe.getY()-pipe.get_height()))||((getY()+28)>=(pipe.getY()+pipe.get_height()))){
 			return true;
 			}
 		}

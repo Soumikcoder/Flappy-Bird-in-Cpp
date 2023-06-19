@@ -6,6 +6,7 @@
 #include <cstdio>
 
 #include "Entity.hpp"
+#include "Pipe.hpp"
 #include <SDL2/SDL_ttf.h>
 // #include <SDL2/SDL_mixer.h>
 
@@ -51,7 +52,7 @@ public:
 	RenderWindow(const char* p_title,int p_w,int p_h);
 	SDL_Texture* loadTexture(const char* p_filePath);
 	void render(Entity& p_entity,float angle);
-	void render_pipe(Entity& p_entity,int x);
+	void render_pipe(Pipe& p_entity,int x);
 	void render(Entity& p_entity,int x,int y);
 	void rendertext(char* text,SDL_Color &color,int x,int y,int height,int width);
 	void display();

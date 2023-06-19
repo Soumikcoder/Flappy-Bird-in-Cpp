@@ -47,7 +47,7 @@ void RenderWindow::render(Entity& p_entity,float angle){
 	SDL_RenderCopyEx(renderer,p_entity.getTex(),&src,&dst,angle,NULL,SDL_FLIP_NONE);
 	return;
 }
-void RenderWindow::render_pipe(Entity& p_entity,int offset){
+void RenderWindow::render_pipe(Pipe& p_entity,int offset){
 	SDL_Rect src;
 	src.x=p_entity.getFrame().x-1;
 	src.y=p_entity.getFrame().y;
@@ -58,7 +58,7 @@ void RenderWindow::render_pipe(Entity& p_entity,int offset){
 	dst.x=p_entity.getX()-offset;
 	dst.y=0;
 	dst.w=(p_entity.getFrame().w*p_entity.getZoom())*2;
-	dst.h=p_entity.getY()-40;
+	dst.h=p_entity.getY()-p_entity.get_height();
 
 	SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dst);
 	src.x=p_entity.getFrame().x+27;
@@ -67,9 +67,9 @@ void RenderWindow::render_pipe(Entity& p_entity,int offset){
 	src.w=p_entity.getFrame().w+2;
 
 	dst.x=p_entity.getX()-2-offset;
-	dst.y=p_entity.getY()+40;
+	dst.y=p_entity.getY()+p_entity.get_height();
 	dst.w=(p_entity.getFrame().w*p_entity.getZoom())*2;
-	dst.h=332-p_entity.getY()-40;
+	dst.h=332-p_entity.getY()-p_entity.get_height();
 	SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dst);
 	return;
 }

@@ -27,7 +27,7 @@ void check_pipe(std::vector<Pipe> &pipes,int offset){
 bool crossed_pipe(std::vector<Pipe> &pipes,int offset,float elapsed_time,int level){
 	for(auto &pipe : pipes){
 		// printf("%f\n",(double)(pipe.getX()-offset));
-		if(((double)(pipe.getX()-offset)<=(double)(216.0))&&(double)(pipe.getX()-offset)>=(double)(216.0-(int)elapsed_time/10*level)){
+		if(((double)(pipe.getX()-offset+50)<=(double)(216.0))&&(double)(pipe.getX()-offset+50)>=(double)(216.0-(int)elapsed_time/10*level)){
 			// printf("A\n");
 			return true;
 		}
