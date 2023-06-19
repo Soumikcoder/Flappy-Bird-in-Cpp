@@ -9,10 +9,10 @@
 #include <time.h>
 // user defined headers
 #include "RenderWindow.hpp"
-#include "Entity.hpp"
-#include "Bird.hpp"
+// #include "Entity.hpp"
+// #include "Bird.hpp"
 #include "Background.hpp"
-#include "Pipe.hpp"
+// #include "Pipe.hpp"
 
 #define HEIGHT 432
 #define WIDTH 450
@@ -44,66 +44,10 @@ int main(int argc, char *argv[])
 	Mix_Chunk* die_sound=Mix_LoadWAV("res/sound/sounds_sfx_die.ogg");
 	Mix_Chunk* hit_sound=Mix_LoadWAV("res/sound/sounds_sfx_hit.ogg");
 	// setting gameloop conditions and events
-	bool gamerunning=true;
-	int pos=0;
-	int level=1;
-	SDL_Event event;
-
-	// creating entity
-	Background background1(bg,0);
-	Background background2(bg,1);
-	Bird flappy(bg);
-	std::vector<Pipe> p;
-	for(int i=0;i<4;i++){
-	p.push_back(Pipe(bg,500+200*i));
-	}
-	// Game loop
-	gametime frames;
-	while (gamerunning){
-		window.clear();
-		while (SDL_PollEvent(&event))
-		{
-			
-			switch (event.type)
-			{
-				case SDL_QUIT:
-					gamerunning=false;
-					break;
-				case SDL_MOUSEWHEEL :
-					break;
-				case SDL_MOUSEBUTTONDOWN:
-					flappy.flap(frames.get_elapsed());
-					Mix_PlayChannel(-1,flapping_sound,0);
-					break;
-				default:
-					break;
-				}
-			}
-			if(!flappy.check_colision(p,pos)){
-				pos+=((int)frames.get_elapsed()/10*level);
-				flappy.update(frames.get_elapsed());
-				
-			}
-			else{
-				Mix_PlayChannel(-1,hit_sound,0);
-				Mix_PlayChannel(-1,die_sound,0);
-			}
-			if(pos%10000==531){
-				background1.change_mode();
-				flappy.change_mode();
-			}
-			draw_background(background1,background2,window,pos);
-			
-			window.render(flappy,flappy.get_angle(frames.get_elapsed()));
-			check_pipe(p,pos);
-			for(int i=0;i<4;i++){
-			window.render_pipe(p[i],pos);
-			}
-			frames.tick(60);
-			window.update_frames(frames);
-			window.display();
-
-	}
+	int mode=0;
+	do{
+	mode=gameplay(window,bg,flapping_sound,die_sound,hit_sound);
+	}while(mode);
 	// clearing memory ocuupied by window
 	window.cleanup();
 	SDL_Quit();
