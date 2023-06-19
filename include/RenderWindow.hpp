@@ -59,4 +59,5 @@ public:
 	void clear();
 	void cleanup();
 	void update_frames(gametime frames);
+	SDL_Window* get_window(){return window;}
 };

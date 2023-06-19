@@ -33,10 +33,12 @@ int main(int argc, char *argv[])
 	Init();
 	srand(time(NULL));
 	// Intializing game window
-	RenderWindow window("GAME",WIDTH,HEIGHT);
+	RenderWindow window("Flappy Bird",WIDTH,HEIGHT);
 
 	// loading image 
+	SDL_Surface* icon = IMG_Load("res/gfx/icon.png");
 	SDL_Texture* bg=window.loadTexture("res/gfx/assets.png");
+	 SDL_SetWindowIcon(window.get_window(), icon);
 	//constant music
 	// Mix_Music* flapping=Mix_LoadMUS("res/sound/sounds_sfx_wing.ogg");
 	// Mix_PlayMusic(flapping,0);
