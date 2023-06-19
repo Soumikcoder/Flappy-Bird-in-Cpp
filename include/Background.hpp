@@ -1,8 +1,12 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <cstdio>
-
+#include "RenderWindow.hpp"
+#include "Entity.hpp"
+#include "Bird.hpp"
+#include "Pipe.hpp"
 class Background:public Entity
 {
 	int mode;
@@ -35,12 +39,6 @@ public:
 };
 
 
-void draw_background(Background &background1,Background &background2,RenderWindow &window,int pos){
-	for(int i=0;i<3;i++){
-		window.render(background1,i*280-(pos%280),0);
-	}
-	for(int i=0;i<6;i++){
-		window.render(background2,i*120-(pos%120),332);
-	}
-	return;
-}
+void draw_background(Background &background1,Background &background2,RenderWindow &window,int pos);
+int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_Chunk* die_sound,Mix_Chunk* hit_sound);
+int retry(RenderWindow &window,int score,SDL_Texture* bg);
