@@ -1,0 +1,32 @@
+ID_MY_ICON ICON "res/gfx/icon.ico"
+
+#include <windows.h> // include for version info constants
+
+//
+// TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...
+//
+1 VERSIONINFO
+FILEVERSION 1,0,0,001
+PRODUCTVERSION 1,0,0,001
+FILETYPE VFT_APP
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "040904E4"
+    {
+      VALUE "CompanyName", "Soumikcoder"
+      VALUE "FileVersion", "1,0,0,001"
+      VALUE "FileDescription", "Flappy Bird(By Soumiknotfoud)"
+      VALUE "InternalName", "Flappy Bird"
+      VALUE "LegalCopyright", "Soumiknotfound"
+      VALUE "LegalTrademarks", "@VolatileBits"
+      VALUE "OriginalFilename", "Flappy Bird"
+      VALUE "ProductName", "Flappy Bird offline game"
+      VALUE "ProductVersion", "1,0,0,001"
+    }
+  }
+  BLOCK "VarFileInfo"
+  {
+    VALUE "Translation", 0x0409, 1252
+  }
+}
