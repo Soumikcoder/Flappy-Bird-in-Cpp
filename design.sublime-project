@@ -13,15 +13,22 @@
 		{
 			"name": "Build Debug",
 			"working_dir": "${project_path}",
-			"cmd": "g++ -c src/*.cpp  -std=c++14 -g -Wall -m64 -I include && g++ *.o -o bin/debug/main  -L lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_test -lSDL2_ttf -lSDL2_mixer && start bin/debug/main",
+			"cmd": "g++ -c src/*.cpp  -std=c++14 -g -Wall -m64 -I include && g++ *.o icons.res -o bin/debug/main  -L lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_test -lSDL2_ttf -lSDL2_mixer && start bin/debug/main",
 			"selector": "source.c++",
 			"shell": true
 		},
 		{
 			"name": "Build Release",
 			"working_dir": "${project_path}",
-			"cmd": "g++ -c src/*.cpp -std=c++14 -Wall -O3 -m64  -I include  && g++ *.o -o bin/release/main -L lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image  -lSDL2_test -lSDL2_ttf -lSDL2_mixer -mwindows && start bin/release/main",
+			"cmd": "g++ -c src/*.cpp -std=c++14 -Wall -O3 -m64  -I include  && g++ *.o icons.res -o bin/release/main -L lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image  -lSDL2_test -lSDL2_ttf -lSDL2_mixer -mwindows && start bin/release/main",
 			"selector": "source.c++",
+			"shell": true
+		},
+		{
+			"name": "Build RC",
+			"working_dir": "${project_path}",
+			"cmd": "windres *.rc -O coff -o icons.res",
+			"selector": "source.rc",
 			"shell": true
 		}
 	]

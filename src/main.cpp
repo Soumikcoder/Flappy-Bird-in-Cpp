@@ -8,6 +8,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
+
 // user defined headers
 #include "RenderWindow.hpp"
 // #include "Entity.hpp"
