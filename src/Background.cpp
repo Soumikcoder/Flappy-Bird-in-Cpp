@@ -183,7 +183,7 @@ int main_menu(RenderWindow &window,SDL_Texture* bg){
 			if(play.hover()) play.glow(window);
 			else if(pause.hover()) pause.glow(window);
 			else if(share.hover()) share.glow(window);
-			else if(start.hover()) start.glow(window);
+			// else if(start.hover()) start.glow(window);
 			window.display();
 			if(animation)
 			pos+=((int)frames.get_elapsed()/10);
