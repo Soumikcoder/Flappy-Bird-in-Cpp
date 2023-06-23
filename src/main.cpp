@@ -50,12 +50,24 @@ int main(int argc, char *argv[])
 	Mix_Chunk* point_sound=Mix_LoadWAV("res/sound/sounds_sfx_point.ogg");
 	// setting gameloop conditions and events
 	int mode=0;
+	FILE* fp;
+	fp=fopen("res/score.dat","rb");
 	int highscore=0;
+	if(fp==NULL){
+		//file is not generated yet
+		fp=fopen("res/score.dat","wb");
+		system("attrib +h +s res/score.dat");
+	}
+	else{
+		fread(&highscore,1,sizeof(highscore),fp);
+	}
 	do{
 	mode=main_menu(window,bg);
 	if(mode)
 	mode=gameplay(window,bg,flapping_sound,die_sound,hit_sound,point_sound,highscore);
 	}while(mode);
+	fwrite(&highscore,1,sizeof(highscore),fp);
+	fclose(fp);
 	// clearing memory ocuupied by window
 	window.cleanup();
 	SDL_Quit();

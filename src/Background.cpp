@@ -170,6 +170,7 @@ int main_menu(RenderWindow &window,SDL_Texture* bg){
 					if(start.hover())		return 1;
 					else if(play.hover())		animation=true;
 					else if(pause.hover())	animation=false;
+					else if(share.hover()) SDL_OpenURL("https://github.com/Soumikcoder/Flappy-Bird-in-Cpp.git");
 					break;
 				default:
 					break;
