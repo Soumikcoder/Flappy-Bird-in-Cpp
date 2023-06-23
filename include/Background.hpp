@@ -7,6 +7,9 @@
 #include "Entity.hpp"
 #include "Bird.hpp"
 #include "Pipe.hpp"
+#include "Button.hpp"
+
+
 class Background:public Entity
 {
 	int mode;

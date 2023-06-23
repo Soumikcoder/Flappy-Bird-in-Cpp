@@ -31,20 +31,18 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 	}
 	bool gameover =false;
 	int result=0;
-	int pos_x,pos_y;
 	// Game loop
 	gametime frames;
+	Button main_menu((225-18),2*26+(216-50+42+80),40,14);
+	Button ok((225-18),2*42+(216-50+42+80),40,13);
 	while (gamerunning){
 		window.clear();
 		while (SDL_PollEvent(&event))
 		{
-			
 			switch (event.type)
 			{
 				case SDL_QUIT:
 					gamerunning=false;
-					break;
-				case SDL_MOUSEWHEEL :
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if(!gameover){
@@ -52,9 +50,16 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 					Mix_PlayChannel(-1,flapping_sound,0);
 					}
 					else{
-						SDL_GetMouseState(&pos_x,&pos_y);
-						if(( pos_y>=2*26+(216-50+42+80) &&pos_y<=(216-50+42+80)+2*39)&&(pos_x>=(225-20)&&pos_x<=2*55+(225-20)))
+						if(main_menu.hover()||ok.hover())
 						result=1;
+					}
+					break;
+				case SDL_KEYDOWN:
+					if(!gameover){
+						if(event.key.keysym.sym==SDLK_UP ||event.key.keysym.sym==SDLK_SPACE||event.key.keysym.sym==SDLK_w){	
+							flappy.flap(frames.get_elapsed());
+							Mix_PlayChannel(-1,flapping_sound,0);
+						}
 					}
 					break;
 				default:
@@ -78,6 +83,8 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 			frames.tick(60);
 			window.update_frames(frames);
 			if(gameover){
+			if(main_menu.hover()) main_menu.glow(window);
+			else if(ok.hover()) ok.glow(window);
 			retry(window,score,bg,highscore);
 			continue;
 			} 
@@ -108,33 +115,17 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 
 int retry(RenderWindow &window,int score,SDL_Texture* bg,int &highscore){
 	Entity gameover((225-102),(216-120),bg,2);
-	SDL_Rect currentFrame;
-	currentFrame.x=390;
-	currentFrame.y=58;
-	currentFrame.w=102;
-	currentFrame.h=24;
-	gameover.setcurrFrame(currentFrame);
+	gameover.setcurrFrame(390,58,102,24);
 
 	Entity scoreboard((225-102),(216-50),bg,2);
-	currentFrame.y=180;
-	currentFrame.x=397;
-	currentFrame.w=(510-397);
-	currentFrame.h=(238-180);
-	scoreboard.setcurrFrame(currentFrame);
+	scoreboard.setcurrFrame(397,180,(510-397),(238-180));
 	
 	Entity medal((225-102+26),(216-50+42),bg,2);
-	currentFrame.x=(score>10?336:(score>5?313:290));
-	currentFrame.y=197;
-	currentFrame.w=(313-290);
-	currentFrame.h=(220-197);
-	medal.setcurrFrame(currentFrame);
+	medal.setcurrFrame((score>10?336:(score>5?313:290)),197,(313-290),(220-197));
 	
 	Entity menu((225-22),(216-50+42+80),bg,2);
-	 currentFrame.x=460;
-	 currentFrame.y=0;
-	 currentFrame.w=(505-460);
-	 currentFrame.h=55;
-	 menu.setcurrFrame(currentFrame);
+	menu.setcurrFrame(460,0,(505-460),55);
+
 	window.render(gameover,0);
 	window.render(scoreboard,0);
 	window.render(medal,0);
@@ -154,38 +145,31 @@ int main_menu(RenderWindow &window,SDL_Texture* bg){
 	Background background1(bg,2);
 	bool gamerunning=true;
 	int result=0;
-	int pos_x,pos_y;
 	gametime frames;
 	SDL_Event event;
 	int pos=0;
-	SDL_Rect currentFrame;
+	bool animation =true;
 	Entity menu((225-97),(216-95),bg,2);
-	 currentFrame.x=291;
-	 currentFrame.y=60;
-	 currentFrame.w=(388-291);
-	 currentFrame.h=155-60;
-	 bool animation =true;
-	 menu.setcurrFrame(currentFrame);
+	menu.setcurrFrame(291,60,(388-291),155-60);
 	
+	Button start((225-97),2*31+(216-97),60,50);
+	Button share((225-97)+2,2*82+(216-95),40,13);
+	Button play((225-97+2*43),2*82+(216-95),13,13);
+	Button pause((225-97+2*44+28),2*82+(216-95),13,13);
+
 	while (gamerunning){
 		window.clear();
 		while (SDL_PollEvent(&event))
 		{
-			
 			switch (event.type)
 			{
 				case SDL_QUIT:
 					gamerunning=false;
 					break;
-				case SDL_MOUSEWHEEL :
-					break;
 				case SDL_MOUSEBUTTONDOWN:
-			
-					SDL_GetMouseState(&pos_x,&pos_y);
-					if(( pos_y>=2*31+(216-95) &&pos_y<=(216-95)+2*81)&&(pos_x>=(225-97)&&pos_x<=2*60+(225-97)))
-						return 1;
-					else if(( pos_y>=2*82+(216-95) &&pos_y<=(216-95)+2*95)&&(pos_x>=(225-97+2*43)&&pos_x<=2*55+(225-97))) animation=true;
-					else if(( pos_y>=2*82+(216-95) &&pos_y<=(216-95)+2*95)&&(pos_x>=(225-97+2*43+28)&&pos_x<=2*55+(225-97+28)))	animation=false;
+					if(start.hover())		return 1;
+					else if(play.hover())		animation=true;
+					else if(pause.hover())	animation=false;
 					break;
 				default:
 					break;
@@ -196,6 +180,10 @@ int main_menu(RenderWindow &window,SDL_Texture* bg){
 			frames.tick(60);
 			window.update_frames(frames);
 			window.render(menu,0);
+			if(play.hover()) play.glow(window);
+			else if(pause.hover()) pause.glow(window);
+			else if(share.hover()) share.glow(window);
+			else if(start.hover()) start.glow(window);
 			window.display();
 			if(animation)
 			pos+=((int)frames.get_elapsed()/10);

@@ -17,7 +17,8 @@ public:
 	float getZoom();
 	void increaseZoom();
 	void decreaseZoom();
-	void setcurrFrame(SDL_Rect& currentFrame_t);
+	void setcurrFrame(int pos_x,int pos_y,int width ,int height);
+	void setcurrFrame(SDL_Rect &stcurrentFrame);
 	void setXY(float p_x,float p_y,float p_zoom);
 	SDL_Texture* getTex();
 	SDL_Rect getFrame();

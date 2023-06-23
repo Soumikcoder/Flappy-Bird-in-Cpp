@@ -14,11 +14,17 @@ Entity::Entity(float p_x,float p_y,SDL_Texture* p_tex,float p_zoom=1){
 float Entity::getX(){
 	return x;
 }
-void Entity::setcurrFrame(SDL_Rect &currentFrame_t){
-	currentFrame.x=currentFrame_t.x;
-	currentFrame.y=currentFrame_t.y;
-	currentFrame.w=currentFrame_t.w;
-	currentFrame.h=currentFrame_t.h;
+void Entity::setcurrFrame(int pos_x,int pos_y,int width ,int height){
+	currentFrame.x=pos_x;
+	currentFrame.y=pos_y;
+	currentFrame.w=width;
+	currentFrame.h=height;
+}
+void Entity::setcurrFrame(SDL_Rect &stcurrentFrame){
+	currentFrame.x=stcurrentFrame.x;
+	currentFrame.y=stcurrentFrame.y;
+	currentFrame.w=stcurrentFrame.w;
+	currentFrame.h=stcurrentFrame.h;
 }
 float Entity::getY(){
 	return y;

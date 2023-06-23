@@ -13,6 +13,8 @@ class Bird:public Entity
 	int speed=150;
 	float mode_x=294;
 public:
+	int width=40;
+	int height=28;
 	Bird(SDL_Texture* p_tex);
 	void update(float elapsed_time);
 	void change_mode();

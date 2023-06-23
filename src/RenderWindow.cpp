@@ -142,7 +142,7 @@ void Init(void){
 void RenderWindow::update_frames(gametime frames){
 	char fps[10];
 	SDL_Color White = {255, 255, 255};
-	snprintf(fps,sizeof("FPS:100.00"),"FPS:%.2lf",frames.tick(60));
-	rendertext(fps,White,215,10,20,80);
+	snprintf(fps,sizeof("FPS:100.00"),"FPS:%.0lf",frames.tick(60));
+	rendertext(fps,White,215,10,20,60);
 	return;
 }

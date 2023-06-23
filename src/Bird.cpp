@@ -5,8 +5,8 @@ Bird::Bird(SDL_Texture* p_tex):Entity(216,201,p_tex,2){
 	SDL_Rect currentFrame;
 	currentFrame.x=294;
 	currentFrame.y=242;
-	currentFrame.w=20;
-	currentFrame.h=14;
+	currentFrame.w=width/2;
+	currentFrame.h=height/2;
 	setcurrFrame(currentFrame);
 }
 void Bird::update(float elapsed_time){
@@ -34,8 +34,8 @@ bool Bird::check_colision(std::vector<Pipe> &pipes,int offset){
 	if(getY()>=300||getY()<=0)
 		return true;
 	for(auto &pipe : pipes){
-		if(((double)(pipe.getX()-offset)<=(double)(216.0+40.0))&&((double)(pipe.getX()-offset+50)>=(double)(216.0))){
-			if((getY()<=(pipe.getY()-pipe.get_height()))||((getY()+28)>=(pipe.getY()+pipe.get_height()))){
+		if(((double)(pipe.getX()-offset)<=(double)(this->getX()+this->width))&&((double)(pipe.getX()-offset+pipe.get_width())>=(double)(this->getX()))){
+			if((getY()<=(pipe.getY()-pipe.get_height()))||((getY()+this->height)>=(pipe.getY()+pipe.get_height()))){
 			return true;
 			}
 		}
