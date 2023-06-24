@@ -8,6 +8,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
+#include <fileapi.h>
 
 // user defined headers
 #include "RenderWindow.hpp"
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
 	if(fp==NULL){
 		//file is not generated yet
 		fp=fopen("res/score.dat","wb");
-		system("attrib +h +s res/score.dat");
+		SetFileAttributesA("res/score.dat",FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_READONLY|FILE_ATTRIBUTE_SYSTEM);
 	}
 	else{
 		fread(&highscore,1,sizeof(highscore),fp);
