@@ -8,7 +8,8 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-
+#include <fileapi.h>
+#include <errno.h>
 // user defined headers
 #include "RenderWindow.hpp"
 // #include "Entity.hpp"
@@ -50,24 +51,29 @@ int main(int argc, char *argv[])
 	Mix_Chunk* point_sound=Mix_LoadWAV("res/sound/sounds_sfx_point.ogg");
 	// setting gameloop conditions and events
 	int mode=0;
+	SetFileAttributesA("res/score.dat",FILE_ATTRIBUTE_NORMAL);
 	FILE* fp;
 	fp=fopen("res/score.dat","rb");
 	int highscore=0;
 	if(fp==NULL){
 		//file is not generated yet
 		fp=fopen("res/score.dat","wb");
-		system("attrib +h +s res/score.dat");
+		// 
 	}
 	else{
-		fread(&highscore,1,sizeof(highscore),fp);
+		fread(&highscore,sizeof(highscore),1,fp);
+		fp=freopen("res/score.dat","wb",fp);
 	}
 	do{
 	mode=main_menu(window,bg);
 	if(mode)
 	mode=gameplay(window,bg,flapping_sound,die_sound,hit_sound,point_sound,highscore);
 	}while(mode);
-	fwrite(&highscore,1,sizeof(highscore),fp);
+	printf("%d\n",highscore);
+	fwrite(&highscore,sizeof(highscore),1,fp);
 	fclose(fp);
+	perror("");
+	SetFileAttributesA("res/score.dat",FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM);
 	// clearing memory ocuupied by window
 	window.cleanup();
 	SDL_Quit();
