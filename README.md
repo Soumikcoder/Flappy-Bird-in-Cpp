@@ -35,7 +35,7 @@ This is a simple Flappy Bird clone game developed in C++ using the SDL2 library.
 - Press the spacebar or left mouse button to make the bird flap and ascend.
 - Avoid colliding with the pipes.
 - The game ends when the bird collides with a pipe or touches the ground.
-- Press *Continue* or *Menu* button to restart the game after it ends.
+- Press *ok* or *Menu* button to restart the game after it ends.
 
 ## Contributing
 
