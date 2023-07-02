@@ -3,7 +3,7 @@
 
 This is a simple Flappy Bird clone game developed in C++ using the SDL2 library. The game replicates the mechanics and gameplay of the popular mobile game "Flappy Bird," where the player controls a bird and tries to navigate it through gaps between pipes without colliding with them.
 
-![Flappy Bird Clone Screenshot](screenshot.png)
+![Flappy Bird Clone Screenshot](https://github.com/Soumikcoder/Flappy-Bird-in-Cpp/blob/main/res/gfx/Flappy.gif)
 
 ## Features
 
