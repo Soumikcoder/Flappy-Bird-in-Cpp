@@ -25,6 +25,9 @@ This is a simple Flappy Bird clone game developed in C++ using the SDL2 library.
 
 ## Installation
 
+ Windows Installer:
+    <a href="https://github.com/Soumikcoder/Flappy-Bird-in-Cpp/raw/main/Flappy%20installer.exe" title="Download" download>Download</a>
+    
 1. Clone or download the repository: `git clone https://github.com/Soumikcoder/Flappy-Bird-in-Cpp.git`
 2. Navigate to the project directory: `cd flappy-bird-clone`
 3. Compile the source code using a C++ compiler: `g++ -c src/*.cpp -std=c++14 -Wall -O3 -m64  -I include  && g++ *.o icons.res -o bin/release/main -L lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image  -lSDL2_test -lSDL2_ttf -lSDL2_mixer -mwindows`(for windows)
