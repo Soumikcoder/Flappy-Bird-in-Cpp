@@ -46,7 +46,7 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if(!gameover){
-					flappy.flap(frames.get_elapsed());
+					flappy.flap();
 					Mix_PlayChannel(-1,flapping_sound,0);
 					}
 					else{
@@ -57,7 +57,7 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 				case SDL_KEYDOWN:
 					if(!gameover){
 						if(event.key.keysym.sym==SDLK_UP ||event.key.keysym.sym==SDLK_SPACE||event.key.keysym.sym==SDLK_w){	
-							flappy.flap(frames.get_elapsed());
+							flappy.flap();
 							Mix_PlayChannel(-1,flapping_sound,0);
 						}
 					}
@@ -75,7 +75,7 @@ int gameplay(RenderWindow &window,SDL_Texture* bg,Mix_Chunk* flapping_sound,Mix_
 				level++;
 			}
 			draw_background(background1,background2,window,pos,1);
-			window.render(flappy,flappy.get_angle(frames.get_elapsed()));
+			window.render(flappy,flappy.get_angle());
 			check_pipe(p,pos);
 			for(int i=0;i<4;i++){
 			window.render_pipe(p[i],pos);

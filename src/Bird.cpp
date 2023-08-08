@@ -19,15 +19,15 @@ void Bird::update(float elapsed_time){
 	setXY(getX(),y,getZoom());
 	return;
 }
-float Bird::get_angle(float elapsed_time){
-	float angle=(velocity*elapsed_time)/1000*20;
+float Bird::get_angle(){
+	float angle=(velocity)/100*32;
 	return -angle;
 }
 void Bird::change_mode(){
 		mode_x=((mode_x==294)?(168+mode_x):(mode_x-168));
 }
-void Bird::flap(float elapsed_time){
-	velocity=(2*60*gravity*elapsed_time/100);
+void Bird::flap(){
+	velocity=(12*16*gravity/10);
 }
 
 bool Bird::check_colision(std::vector<Pipe> &pipes,int offset){

@@ -18,7 +18,7 @@ public:
 	Bird(SDL_Texture* p_tex);
 	void update(float elapsed_time);
 	void change_mode();
-	float get_angle(float elapsed_time);
-	void flap(float elapsed_time);
+	float get_angle();
+	void flap();
 	bool check_colision(std::vector<Pipe> &pipes,int offset);
 };
